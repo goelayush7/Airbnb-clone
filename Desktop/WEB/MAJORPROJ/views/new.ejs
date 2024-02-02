@@ -1,0 +1,60 @@
+<%layout("/layouts/boilerplate") %>
+<body>
+    <div class="row">
+    <div class="col-8 offset-2">
+        <br><br>
+    <h2>Create a New listing</h2>
+    <form action="/listing" method="post" novalidate class="needs-validation" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" name="listings[title]" id="title" placeholder="Give a title" class="form-control" required>
+            <div class="valid-feedback">Looks Good!!</div>
+            <div class="invalid-feedback">This is a required field</div>
+        </div>
+        <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea name="listings[description]" cols="10" rows="5" placeholder="Write the description" class="form-control" required></textarea>
+        <div class="valid-feedback">Looks Good!!</div>
+        <div class="invalid-feedback">Please Fill The Description</div>
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Uplaod Image</label>  <% //when we are doing this we need to change the parsing as this data will not be url it is multipart %>
+            <input type="file" name="listings[image]" id="image" placeholder="Enter the image link/URL" class="form-control" >
+        </div>
+        <div>
+            <label for="Category" class="form-label">Add Category</label>
+            <select class="form-control form-control-md" id="Category" name="Category">
+                <option>Select</option>
+                <option>Mountain</option>
+                <option>Pool</option>
+                <option>City</option>
+            </select>
+        </div>
+        
+        <div class="row">
+            <div class="mb-3 col-md-4">
+                <label for="price" class="form-label">Price</label>
+                <input type="number" name="listings[price]" id="price" placeholder="Enter the price of the destination" class="form-control" required>
+                <div class="valid-feedback">Looks Good!!</div>
+        <div class="invalid-feedback">Please Fill The Price</div>
+            </div>
+            <div class="mb-3 col-md-8 ">
+                <label for="country" class="form-label">Country</label>
+                <input type="text" name="listings[country]" id="country" placeholder="Enter the country of the destination" class="form-control" required>
+                <div class="valid-feedback">Looks Good!!</div>
+        <div class="invalid-feedback">Please Fill The Country</div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input type="text" name="listings[location]" id="location" placeholder="Enter the location" class="form-control" required>
+            <div class="valid-feedback">Looks Good!!</div>
+        <div class="invalid-feedback">Please Fill The Location</div>
+        </div>
+         <button class="add-btn">Add</button>
+         <br>
+         <br>
+    </form>
+    </div>
+</div>
+</body>

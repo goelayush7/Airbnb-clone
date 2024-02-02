@@ -1,0 +1,118 @@
+<% layout("/layouts/boilerplate") %>
+<script>
+  const coordinates1 = <%-JSON.stringify(reqlisting.geometry.coordinates)%>;
+</script>
+<div class="row mt-3">
+  <div class="col-8 offset-2">
+    
+    <h2><%= reqlisting.title %></h2>
+  </div>
+  <div class="card col-6 offset-2" style="width: 18rem;">
+    <img src="<%= reqlisting.image.url %>" class="card-img-top show-img" alt="...">
+    <div class="card-body">
+      <p class="card-text" style="width: 50vw;">
+        <i>Hosted by:<%=reqlisting.owner.username %></i><br>
+        Price : <%= reqlisting.price.toLocaleString("en-IN") %> / night <br>
+        <%= reqlisting.description %> <br>
+        <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7659670.086803548!2d-162.8005790039367!3d20.379868047348786!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7bffdb064f79e005%3A0x4b7782d274cc8628!2sHawaii%2C%20USA!5e0!3m2!1sen!2sin!4v1701497322912!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> -->
+        Location: <%= reqlisting.location %> <br>
+        Country: <%= reqlisting.country %> <br>
+      </p>
+    </div>
+  </div>
+  <% if(currUser && reqlisting.owner._id.equals(currUser._id)){ %>
+  <div class="btn show-btns">
+    <a href="/listing/<%= reqlisting._id %>/edit" class="btn btn-dark edit-show">Edit This listing</a>
+    <form action="/listing/<%= reqlisting._id %>?_method=delete" method="post">
+      <button class="btn btn-dark edit-show">Delete</button>
+    </form>
+  </div>
+  <% } %>
+  <hr>
+  <div class="col-8 offset-2">
+    <% if(currUser){ %>
+    <h4>Leave a review</h4>
+    <form action="/listing/<%= reqlisting._id %>/review" method="post" novalidate class="needs-validation">
+      <div class="mb-3 mt-3">
+        <div class="mb-3 mt-3">
+          <label for="rating" class="form-label">Rating</label>
+        <fieldset class="starability-slot">
+          <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
+          <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+          <label for="first-rate1" title="Terrible">1 star</label>
+          <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+          <label for="first-rate2" title="Not good">2 stars</label>
+          <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+          <label for="first-rate3" title="Average">3 stars</label>
+          <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+          <label for="first-rate4" title="Very good">4 stars</label>
+          <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+          <label for="first-rate5" title="Amazing">5 stars</label>
+        </fieldset>
+      </div>
+      </div>
+      <div class="mb-3">
+        <label for="comment" class="form-label">Comment</label>
+        <textarea type="text" name="review[comment]" id="comment" cols="30" rows="5" class="form-control" required></textarea>
+        <div class="valid-feedback">Looks Good!!</div>
+        <div class="invalid-feedback">Please add some comment for review</div>
+      </div>
+      <button class="btn btn-outline-dark mb-3">Sumbit</button>
+    </form> 
+    <% } %>
+    <% if(reqlisting.reviews.length>0){ %>
+    <p><b>All Reviews</b></p>
+    <% } %>
+    <div class="row">
+      <% for(review of reqlisting.reviews){ %>
+        <div class="card review-card col-5 ms-1  mt-1">
+            <div class="card-body">
+              <h5 class="card-title"></h5>@<%=review.author.username%></h5>
+              <p class="card-text"> <%=review.comment%></p>
+              <p class="starability-result" data-rating= <%=review.rating%>></p>
+              <br>
+              <form action="/listing/<%=reqlisting._id %>/review/<%= review._id %>?_method=DELETE" method="post">
+                <button class="btn btn-sm btn-outline-dark mb-2">Delete</button>
+              </form>
+            </div>
+        </div>
+      <% } %>
+      <% if(!currUser){ %>
+        <h5>You Must be signed it to post a review</h5>
+        <br>
+      <% } %>
+    </div>
+    
+  </div>
+  <div class="col-8 offset-2 mb-3">
+    <h3>Where will you be</h3>
+    <div id="map"></div>
+  </div>
+</div>
+<script>
+  console.log(coordinates1)
+  if(coordinates1.length==2){
+    mapboxgl.accessToken = `pk.eyJ1IjoiZ29lbGF5dXNoIiwiYSI6ImNscG5vbTQyczAwbW0yamwzbTRzN3k2cWQifQ.rBnXhWa58BvphTNMBzuZfg`;
+const map = new mapboxgl.Map({
+container: 'map', // container ID
+center: coordinates1, // starting position [lng, lat]
+zoom: 9 // starting zoom
+});
+  const marker1 = new mapboxgl.Marker()
+.setLngLat(coordinates1)
+.addTo(map);
+  }
+else{
+  mapboxgl.accessToken = `pk.eyJ1IjoiZ29lbGF5dXNoIiwiYSI6ImNscG5vbTQyczAwbW0yamwzbTRzN3k2cWQifQ.rBnXhWa58BvphTNMBzuZfg`;
+ map = new mapboxgl.Map({
+container: 'map', // container ID
+center: [-74.5, 40], // starting position [lng, lat]
+zoom: 9 // starting zoom
+});
+   marker1 = new mapboxgl.Marker()
+.setLngLat([-74.5, 40])
+.addTo(map);
+
+}
+</script>
+ 

@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/listing"><i class="fa-regular fa-compass"></i></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" >
+      <span class="navbar-toggler-icon" ></span>
+    </button>
+   
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link " href="/listing">Explore</a>
+      </div>
+      <div class="ms-auto">
+      <form class="d-flex" role="search">
+        <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-dark" type="submit" style="background-color:#fa424d ;">Search</button>
+      </form>
+    </div>
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link" href="/listing/new">Add your home</a>
+
+        <% if(!currUser) {%>
+        <a class="nav-link " aria-current="page" href="/signup"><b>Sign in</b></a>
+        <a class="nav-link " href="/login"><b>Log in</b></a>
+        <% } %>
+        <div class="navbar-right">
+
+        <% if(currUser) {%>
+          <div>
+          </div>
+          
+          <li class="nav-item dropdown ">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Welcome <%= currUser.username%>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item nav-user" href="/listing/info/<%=currUser._id%>">View your Listings</a></li>
+              <li><a class="nav-link" href="/logout" style="display: flex;"><span class="material-symbols-outlined">
+                Logout
+                </span>Logout</a></li>
+            </ul>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</nav>
+<style>
+  .material-symbols-outlined{
+    margin-bottom: 1px;
+  }
+</style>
